@@ -1,0 +1,6 @@
+2024/04/05 21:45:41 main.go:11: test
+2024/04/05 22:33:18 users.go:33: table users has no column named name
+2024/04/05 22:37:40 users.go:33: table users has no column named name
+2024/04/05 22:38:06 users.go:33: table users has no column named name
+2024/04/05 22:51:00 users.go:56: near "where": syntax error
+2024/04/05 22:51:22 users.go:56: not enough args to execute query: want 3 got 2
