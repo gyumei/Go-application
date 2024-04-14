@@ -356,3 +356,5 @@ net/http.(*conn).serve(0xc0002a81b0, {0x1005a1ad8, 0xc0000a50b0})
 	/usr/local/go/src/net/http/server.go:2009 +0x5f4
 created by net/http.(*Server).Serve in goroutine 1
 	/usr/local/go/src/net/http/server.go:3086 +0x5cb
+2024/04/14 18:20:05 opinion.go:30: no such table: opinions
+2024/04/14 18:20:36 opinion.go:30: 5 values for 4 columns

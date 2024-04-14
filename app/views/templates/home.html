@@ -16,12 +16,9 @@
     <input type="submit" value="submit">  
 </form>
 
-<form ative="menu" method="POST">
-<b>メニュー</b>
-  <input type="checkbox" name="food" value="1">焼肉
-  <input type="checkbox" name="food" value="2">ラーメン
-  <input type="checkbox" name="food" value="3">フレッシュサラダ
-  <input type="checkbox" name="food" value="4">100%オレンジジュース
-  <input type="submit" value="submit">  
+<form method="POST" action="/opinion">
+  <textarea name="kansou" rows="4" cols="40"></textarea><br>
+  <input type="submit" value="送信">
 </form>
+  
 {{ end }}

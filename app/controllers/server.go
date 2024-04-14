@@ -1,8 +1,10 @@
 package controllers
 
 import (
+	"az/app/models"
 	"az/config"
 	"io"
+	"log"
 	"net/http"
 	"text/template"
 
@@ -30,7 +32,7 @@ type CommonData struct {
 func ViewTopPage(c echo.Context) error {
 	data := "Hello"
 	/* Renderでhtmlを表示 */
-	path := "top.html"
+	path := "layout.html"
 	return c.Render(http.StatusOK, path, data)
 }
 
@@ -55,6 +57,27 @@ func ViewSelection(c echo.Context) error {
 	return nil
 }
 
+func ViewOpinion(c echo.Context) error {
+	opinion := c.FormValue("kansou")
+	name := "murata"
+
+	// Userモデルを作成
+	opi := models.Opinion{
+		Name:    name,
+		Opinion: opinion,
+	}
+
+	// ユーザーを作成
+	if err := opi.CreateOpinion(); err != nil {
+		// エラーが発生した場合はログに記録
+		log.Fatalln(err)
+		return err
+	}
+
+	// 成功した場合はステータスコード200を返す
+	return c.String(http.StatusOK, "User created successfully")
+}
+
 func StartMainServer() {
 	e := echo.New()
 	t := &Template{
@@ -67,5 +90,6 @@ func StartMainServer() {
 	e.GET("/top", ViewTopPage)
 	e.GET("/home", ViewHomePage)
 	e.POST("/select", ViewSelection)
+	e.POST("/opinion", ViewOpinion)
 	e.Start(":8080")
 }
