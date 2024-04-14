@@ -66,3 +66,4 @@ func (u *User) DeleteUser() (err error) {
 	}
 	return err
 }
+

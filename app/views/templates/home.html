@@ -1,0 +1,27 @@
+{{ define "home.html"}}
+<h1>Top</h1>
+{{.}}
+<h1>こちらがホーム画面になります。</h1>
+
+<p>ようこそあなたの情報が付加されました。</p>
+
+<form action="/select" method="POST">
+    <select name="selection">
+        <option value="apple">りんご</option>
+        <option value="orange">みかん</option>
+        <option value="strawberry">いちご</option>
+        <option value="pinapple">パイナップル</option>
+      </select>
+      
+    <input type="submit" value="submit">  
+</form>
+
+<form ative="menu" method="POST">
+<b>メニュー</b>
+  <input type="checkbox" name="food" value="1">焼肉
+  <input type="checkbox" name="food" value="2">ラーメン
+  <input type="checkbox" name="food" value="3">フレッシュサラダ
+  <input type="checkbox" name="food" value="4">100%オレンジジュース
+  <input type="submit" value="submit">  
+</form>
+{{ end }}

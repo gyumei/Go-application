@@ -2,28 +2,70 @@ package controllers
 
 import (
 	"az/config"
-	"fmt"
+	"io"
 	"net/http"
 	"text/template"
+
+	"github.com/labstack/echo"
 )
 
-func generateHTML(w http.ResponseWriter, data interface{}, filenames ...string) {
-	var files []string
-	for _, file := range filenames {
-		files = append(files, fmt.Sprintf("app/views/templates/%s.html", file))
+type Template struct {
+	templates *template.Template
+}
+
+func (t *Template) Render(w io.Writer, filename string, data interface{}, c echo.Context) error {
+
+	err := t.templates.ExecuteTemplate(w, filename, data)
+	if err != nil {
+		// エラーハンドリング
+		return err
 	}
-	templates := template.Must(template.ParseFiles(files...))
-	templates.ExecuteTemplate(w, "layout", data)
+	return nil
 }
 
-func top(w http.ResponseWriter, r *http.Request) {
-	generateHTML(w, "Hello", "layout","top")
+type CommonData struct {
+	Title string
 }
 
-func StartMainServer() error {
-	files := http.FileServer(http.Dir(config.Config.Static))
-	http.Handle("/static/", http.StripPrefix("/static", files))
+func ViewTopPage(c echo.Context) error {
+	data := "Hello"
+	/* Renderでhtmlを表示 */
+	path := "top.html"
+	return c.Render(http.StatusOK, path, data)
+}
 
-	http.HandleFunc("/", top)
-	return http.ListenAndServe(":"+config.Config.Port, nil)
+func ViewHomePage(c echo.Context) error {
+	data := "good morning"
+	path := "home.html"
+	return c.Render(http.StatusOK, path, data)
+}
+
+func ViewSelection(c echo.Context) error {
+	method := c.Request().Method
+	if method == http.MethodPost {
+		// POSTリクエストの処理
+		selection := c.FormValue("selection")
+		msg := "あなたが選んだのは" + selection + "です。"
+		return c.Render(http.StatusOK, "home.html", msg)
+	} else if method == http.MethodGet {
+		// GETリクエストの処理
+		msg := "あなたが選んだサイトは見つかりませんでした。"
+		return c.Render(http.StatusOK, "home.html", msg)
+	}
+	return nil
+}
+
+func StartMainServer() {
+	e := echo.New()
+	t := &Template{
+		templates: template.Must(template.ParseGlob("app/views/templates/*.html")),
+	}
+	e.Renderer = t
+
+	e.Static("/static", config.Config.Static)
+
+	e.GET("/top", ViewTopPage)
+	e.GET("/home", ViewHomePage)
+	e.POST("/select", ViewSelection)
+	e.Start(":8080")
 }

@@ -1,4 +1,20 @@
-{{ define "content"}}
+{{ define "top.html"}}
 <h1>Top</h1>
 {{.}}
+<h1>こちらがあなたの望むユートピアになります。</h1>
+
+<h1>以下からあなたの情報を入力してください</h1>
+
+<a href="/home">ここをクリック</a>
+<hr>
+<form action="/home" method="post">
+	<p>お名前（必須）：<br>
+	<input type="text" name="name"></p>
+	<p>メールアドレス：<br>
+	<input type="text" name="mail"></p>
+	<p>お問合せ内容：<br>
+	<textarea name="comment" cols="30" rows="5"></textarea></p>
+	<p><input type="submit" value="確認する"></p>
+</form>
+
 {{ end }}
